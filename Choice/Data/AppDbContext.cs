@@ -12,6 +12,7 @@ namespace Choice.Data
         public DbSet<Student> Student { get; set; }
         public DbSet<Teacher> Teacher { get; set; }
         public DbSet<Discipline> Discipline { get; set; }
+        public DbSet<StudDisc> StudDisc { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
@@ -21,5 +22,6 @@ namespace Choice.Data
             modelBuilder.Entity<StudDisc>()
                  .HasKey(e => new { e.StudentId, e.DisciplineId });
         }
+
     }
 }

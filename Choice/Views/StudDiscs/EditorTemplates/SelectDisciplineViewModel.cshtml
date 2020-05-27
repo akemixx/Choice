@@ -1,0 +1,13 @@
+﻿@model Choice.Models.SelectDisciplineViewModel
+
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => modelItem.Title)
+    </td>
+    <td style="text-align:center">
+        @Html.CheckBoxFor(modelItem => modelItem.Selected)
+    </td>
+    <td>
+        @Html.HiddenFor(modelItem => modelItem.Id)
+    </td>
+</tr>

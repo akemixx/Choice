@@ -1,0 +1,24 @@
+﻿@model Choice.Models.DisciplineSelectionViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Select Disciplines</h1>
+
+<form method="post" asp-action="FormSubmit" asp-controller="StudDiscs">
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+        @Html.EditorFor(model => model.Disciplines)
+        </tbody>
+    </table>
+    @Html.HiddenFor(model => model.StudentId)
+    <input type="submit" value="OK" class="btn btn-primary" />
+</form>

@@ -1,23 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Choice.Models;
+using Choice.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Choice.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly AppDbContext _context;
+
+        public HomeController(AppDbContext context)
         {
-            return View();
+            _context = context;
         }
 
-        public IActionResult Privacy()
+        // GET: Student's list
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _context.Student.ToListAsync());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
