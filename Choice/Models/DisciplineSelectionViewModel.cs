@@ -4,7 +4,7 @@ namespace Choice.Models
 {
     public class DisciplineSelectionViewModel
     {
-        public int StudentId { set; get; }
+        public Student Student { get; set; }
         public IList<SelectDisciplineViewModel> Disciplines { set; get; }
         
         public DisciplineSelectionViewModel()
@@ -12,9 +12,9 @@ namespace Choice.Models
             Disciplines = new List<SelectDisciplineViewModel>();
         }
 
-        public DisciplineSelectionViewModel(int _studentId) : base()
+        public DisciplineSelectionViewModel(Student student) : base()
         {
-            StudentId = _studentId;
+            Student = student;
         }
     }
 }

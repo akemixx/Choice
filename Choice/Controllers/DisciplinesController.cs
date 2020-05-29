@@ -20,7 +20,8 @@ namespace Choice.Controllers
         // GET: Disciplines
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Discipline.Include(d => d.Teacher);
+            var appDbContext = _context.Discipline.Include(d => d.Teacher)
+                                                  .OrderBy(disc => disc.Title);
             return View(await appDbContext.ToListAsync());
         }
 

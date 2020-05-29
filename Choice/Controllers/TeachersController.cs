@@ -19,7 +19,8 @@ namespace Choice.Controllers
         // GET: Teachers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Teacher.ToListAsync());
+            return View(await _context.Teacher.OrderBy(teach => teach.Name)
+                                              .ToListAsync());
         }
 
         // GET: Teachers/Details/5

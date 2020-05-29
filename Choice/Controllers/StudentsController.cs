@@ -19,7 +19,16 @@ namespace Choice.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Student.ToListAsync());
+            return View(await _context.Student.OrderBy(stud => stud.Group)
+                                              .ThenBy(stud => stud.Name)
+                                              .ToListAsync());
+        }
+
+        public JsonResult ValidateStudent(string Name, string Group)
+        {
+            if (_context.Student.Any(s => s.Name == Name && s.Group == Group))
+                return Json("Such student already exists in database and cannot be added.");
+            return Json(true);
         }
 
         // GET: Students/Details/5
