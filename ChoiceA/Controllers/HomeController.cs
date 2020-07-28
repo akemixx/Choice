@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using ChoiceA.Data;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System;
 
 namespace ChoiceA.Controllers
 {
@@ -21,7 +23,14 @@ namespace ChoiceA.Controllers
         // GET: Student's list
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Student.ToListAsync());
+            var _studentId = User.Claims.FirstOrDefault(c => c.Type == "StudentId");
+            if (_studentId != null)
+            {
+                return RedirectToAction("Index", "StudDiscs", new { studentId = Convert.ToInt32(_studentId.Value) });
+            }
+            return View(await _context.Student.OrderBy(stud => stud.Group)
+                                              .ThenBy(stud => stud.Name)
+                                              .ToListAsync());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

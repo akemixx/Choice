@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ChoiceA.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Admin")]
     public class TeachersController : Controller
     {
         private readonly ApplicationDbContext _context;

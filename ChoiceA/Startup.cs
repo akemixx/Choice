@@ -44,9 +44,18 @@ namespace ChoiceA
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 6;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -._";
             })
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin",
+                    policyBuilder => policyBuilder.RequireAssertion(
+                        context => !context.User.Claims.Any(c => c.Type == "StudentId")
+                    ));
+            }); // если у пользователя нет утверждения "StudentId" - это администратор
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

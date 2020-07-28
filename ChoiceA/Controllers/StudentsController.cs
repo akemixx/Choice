@@ -5,17 +5,22 @@ using Microsoft.EntityFrameworkCore;
 using ChoiceA.Data;
 using ChoiceA.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace ChoiceA.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Admin")]
     public class StudentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private const string _defaultPassword = "123456";
 
-        public StudentsController(ApplicationDbContext context)
+        public StudentsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Students
@@ -63,13 +68,23 @@ namespace ChoiceA.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Group")] Student student)
+        public async Task<IActionResult> Create([Bind("Name,Group")] Student student)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var user = new IdentityUser { UserName = student.Name, Email = student.Name };
+                var result = await _userManager.CreateAsync(user, _defaultPassword);
+                if (result.Succeeded)
+                {
+                    _context.Add(student);
+                    await _context.SaveChangesAsync();
+                    await _userManager.AddClaimAsync(user, new Claim("StudentId", student.Id.ToString()));
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError("Name", result.Errors.First().Description);
+                }
             }
             return View(student);
         }
