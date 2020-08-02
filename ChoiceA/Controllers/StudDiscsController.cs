@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ChoiceA.Data;
 using ChoiceA.Models;
 using Microsoft.AspNetCore.Authorization;
+using ChoiceA.Attributes;
 
 namespace ChoiceA.Controllers
 {
@@ -45,6 +46,7 @@ namespace ChoiceA.Controllers
         }
 
         // POST: Changes to selected disciplines for concrete student
+        [ForStudent]
         [HttpPost]
         public async Task<IActionResult> FormSubmit(DisciplineSelectionViewModel model)
         {
