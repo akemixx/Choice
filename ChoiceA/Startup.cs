@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using ChoiceA.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ChoiceA.Services;
+using ChoiceA.Extensions;
 
 namespace ChoiceA
 {
@@ -58,6 +60,8 @@ namespace ChoiceA
             }); // если у пользователя нет утверждения "StudentId" - это администратор
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddGroupService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
