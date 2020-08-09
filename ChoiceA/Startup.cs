@@ -20,6 +20,7 @@ namespace ChoiceA
 {
     public class Startup
     {
+        private readonly string secretFilePath = "SecretFiles/secret.secret";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -84,6 +85,8 @@ namespace ChoiceA
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseTopSecretMiddleware(secretFilePath);
 
             app.UseMvc(routes =>
             {
