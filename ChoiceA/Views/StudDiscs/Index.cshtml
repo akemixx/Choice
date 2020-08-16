@@ -9,7 +9,7 @@
 <h3 class="bg-light font-weight-lighter">Name: @Html.DisplayFor(model => model.Student.Name)</h3>
 <h3 class="bg-light font-weight-lighter">Group: @Html.DisplayFor(model => model.Student.Group)</h3>
 
-<form method="post" asp-action="FormSubmit" asp-controller="StudDiscs">
+@*<form method="post" asp-action="FormSubmit" asp-controller="StudDiscs">
     <table class="table">
         <tbody>
             <tr>
@@ -24,4 +24,27 @@
     </table>
     @Html.HiddenFor(model => model.Student.Id)
     <input type="submit" value="OK" class="btn btn-primary" />
-</form>
+</form>*@
+
+<div id="form">
+    @Html.AntiForgeryToken()
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+            @Html.EditorFor(model => model.Disciplines)
+        </tbody>
+    </table>
+    @*@Html.HiddenFor(model => model.Student.Id)*@
+    <input type="button" value="OK" class="btn btn-primary" onclick="SaveDiscChanges()"/>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/index.js" type="text/javascript" charset="utf-8"></script>
+}
